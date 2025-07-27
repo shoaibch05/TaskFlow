@@ -1,4 +1,4 @@
-// src/components/People.js
+// src/components/People.jsx
 import React, { useState, useEffect } from "react";
 import TopBar from "./TopBar";
 import Sidebar from "./Sidebar";
@@ -18,6 +18,7 @@ export default function People() {
   const [selectedUser, setSelectedUser] = useState(null);
   const [boards, setBoards] = useState([]);
   const [selectedBoardId, setSelectedBoardId] = useState("all");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Fetch boards and members
   useEffect(() => {
@@ -75,43 +76,44 @@ export default function People() {
 
   return (
     <>
-      <TopBar />
-      <div className="flex bg-gray-700 min-h-screen">
-        <Sidebar />
-        <div className="p-6 flex-1">
-          <h2 className="text-2xl font-bold text-white mb-4">Team Members</h2>
-
-          {/* Board selector */}
-          {boards.length > 0 && (
-            <select
-              value={selectedBoardId}
-              onChange={(e) => setSelectedBoardId(e.target.value)}
-              className="mb-4 p-2 rounded bg-gray-600 text-white"
-            >
-              <option value="all">All Boards</option>
-              {boards.map((board) => (
-                <option key={board._id} value={board._id}>
-                  {board.title}
-                </option>
-              ))}
-            </select>
-          )}
-
-          <button
-            onClick={() => setShowInviteModal(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 ml-4"
-          >
-            + Invite Member
-          </button>
+      <TopBar onMenuClick={() => setSidebarOpen(true)} />
+      <div className="flex bg-gray-700 min-h-screen relative">
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+        <div className="p-4 sm:p-6 flex-1">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <h2 className="text-2xl font-bold text-white">Team Members</h2>
+            <div className="flex flex-col sm:flex-row gap-4">
+              {boards.length > 0 && (
+                <select
+                  value={selectedBoardId}
+                  onChange={(e) => setSelectedBoardId(e.target.value)}
+                  className="p-2 rounded bg-gray-600 text-white"
+                >
+                  <option value="all">All Boards</option>
+                  {boards.map((board) => (
+                    <option key={board._id} value={board._id}>
+                      {board.title}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <button
+                onClick={() => setShowInviteModal(true)}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                + Invite Member
+              </button>
+            </div>
+          </div>
 
           {/* Members list */}
-          <ul className="mt-6 space-y-2">
+          <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {displayedUsers.length > 0 ? (
               displayedUsers.map((member) => (
                 <li
                   key={member._id}
                   onClick={() => setSelectedUser(member)}
-                  className="text-white w-64 bg-gray-800 p-3 rounded cursor-pointer hover:bg-gray-700"
+                  className="text-white bg-gray-800 p-3 rounded cursor-pointer hover:bg-gray-700"
                 >
                   <div className="font-medium">{member.userId.name}</div>
                   <div className="text-sm text-gray-300">

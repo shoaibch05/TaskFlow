@@ -8,14 +8,13 @@ import Board from "./Board";
 import { ToastContainer, toast } from "react-toastify";
 import { createBoard, getBoards, deleteBoard } from "../api/boards";
 import { useSearch } from "../context/searchContext";
-import { AiOutlineDelete } from "react-icons/ai";
-
 const Dashboard = () => {
   const { searchTerm } = useSearch();
   const [boards, setBoards] = useState([]);
   const [selectedBoard, setSelectedBoard] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Fetch boards on mount
   useEffect(() => {
@@ -53,7 +52,6 @@ const Dashboard = () => {
     }
   };
 
-  // DELETE handler
   const handleDeleteBoard = async (boardId) => {
     const ok = window.confirm("Are you sure you want to delete this board?");
     if (!ok) return;
@@ -61,10 +59,8 @@ const Dashboard = () => {
     try {
       const token = localStorage.getItem("token");
       await deleteBoard(boardId, token);
-      // remove from state
       setBoards((prev) => prev.filter((b) => b._id !== boardId));
       toast.success("Board deleted");
-      // if we were viewing it, go back
       if (selectedBoard?._id === boardId) {
         setSelectedBoard(null);
       }
@@ -74,25 +70,26 @@ const Dashboard = () => {
     }
   };
 
-  // Filter by search
   const visibleBoards = boards.filter((b) =>
     b.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <>
-      <TopBar />
-      <div className="flex bg-gray-700 min-h-screen">
-        <Sidebar />
+      <TopBar onMenuClick={() => setSidebarOpen(true)} />
+      <div className="flex bg-gray-700 min-h-screen relative">
+        {/* Sidebar Drawer */}
+        <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-        <div className="p-8 flex-1">
+        {/* Main Content */}
+        <div className="p-4 sm:p-8 flex-1">
           {loading ? (
             <p className="text-white">Loading boards...</p>
           ) : selectedBoard ? (
             <BoardView board={selectedBoard} />
           ) : (
             <>
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 gap-4">
                 <h2 className="text-xl font-bold text-white">Your Boards</h2>
                 <button
                   onClick={() => setModalOpen(true)}
@@ -108,21 +105,16 @@ const Dashboard = () => {
                 onCreate={handleCreate}
               />
 
-              <div className="flex gap-4 flex-wrap">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {visibleBoards.length > 0 ? (
                   visibleBoards.map((board) => (
                     <div key={board._id} className="relative">
-                      {/* Your existing Board tile */}
                       <Board
+                        key={board._id}
                         title={board.title}
                         color={board.color || "bg-gray-500"}
                         onClick={() => handleBoardClick(board)}
-                      />
-                      {/* Delete icon */}
-                      <AiOutlineDelete
-                        onClick={() => handleDeleteBoard(board._id)}
-                        className="absolute top-2 right-2 text-white cursor-pointer hover:text-red-400"
-                        size={20}
+                        onDelete={() => handleDeleteBoard(board._id)}
                       />
                     </div>
                   ))
