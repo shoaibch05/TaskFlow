@@ -3,6 +3,7 @@ import { OthersSignin } from "./SmallComponents/OthersSignin";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/login";
 import { ToastContainer, toast } from "react-toastify";
+import BackgroundImage from "../assets/Abstract-Oval-Sharp--Streamline-Geometric-Gradient.png";
 
 export const Login = () => {
   const emailRef = useRef(null);
@@ -122,7 +123,7 @@ export const Login = () => {
       {/* Background image fix */}
       <div className="w-1/2 h-80 absolute -bottom-4 -left-4 overflow-hidden z-0">
         <img
-          src="src/assets/Abstract-Oval-Sharp--Streamline-Geometric-Gradient.png"
+          src={BackgroundImage}
           className="bg-transparent w-full"
           alt="Background"
         />

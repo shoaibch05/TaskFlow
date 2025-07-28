@@ -3,6 +3,7 @@ import { OthersSignin } from "./SmallComponents/OthersSignin";
 import { signupUser } from "../api/signup";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import BackgroundImage from "../assets/Abstract-Oval-Sharp--Streamline-Geometric-Gradient.png";
 
 export const SignUp = () => {
   const navigate = useNavigate();
@@ -140,7 +141,7 @@ export const SignUp = () => {
       {/* Background image (fix z-index) */}
       <div className="w-1/2 h-80 absolute -bottom-4 -left-4 overflow-hidden z-0">
         <img
-          src="src/assets/Abstract-Oval-Sharp--Streamline-Geometric-Gradient.png"
+          src={BackgroundImage}
           className="bg-transparent w-full"
           alt="Background"
         />
