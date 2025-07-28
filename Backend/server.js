@@ -39,12 +39,10 @@ mongoose
   .catch((err) => console.error(err));
 
 // Routes
-app.get("/health", (req, res) => res.status(200).send("OK"));
 app.use("/api/auth", authRoutes);
 app.use("/api/boards", boardRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/team", teamRoutes);
-// Add this before routes
 
 // Start server
 const PORT = process.env.PORT || 5000;
