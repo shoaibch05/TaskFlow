@@ -97,7 +97,5 @@ router.get("/:userId", async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-// Get all unique users across all boards
-// Get all unique users with their board memberships
 
 export default router;
