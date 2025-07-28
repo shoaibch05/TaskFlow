@@ -15,19 +15,13 @@ app.use(express.json());
 // Allowed frontend origins (add more if needed)
 const allowedOrigins = [
   "https://task-flow-civc.vercel.app", // Production frontend (Vercel)
-  "http://localhost:5173", // Local frontend (Vite)
 ];
 
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: allowedOrigins,
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );
