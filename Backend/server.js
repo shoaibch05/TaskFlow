@@ -2,10 +2,10 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import authRoutes from "./Routes/auth.js";
-import boardRoutes from "./Routes/boards.js";
-import taskRoutes from "./Routes/task.js";
-import teamRoutes from "./Routes/team.js";
+// import authRoutes from "./Routes/auth.js";
+// import boardRoutes from "./Routes/boards.js";
+// import taskRoutes from "./Routes/task.js";
+// import teamRoutes from "./Routes/team.js";
 
 dotenv.config();
 
