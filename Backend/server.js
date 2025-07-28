@@ -12,15 +12,22 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-// Allowed frontend origins (add more if needed)
-const allowedOrigins = [
-  "https://task-flow-civc.vercel.app", // Production frontend (Vercel)
-];
-
+// ✅ CORS: explicitly allow your frontend
 app.use(
   cors({
-    origin: allowedOrigins,
-    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+    origin: "https://task-flow-civc.vercel.app",
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
+
+// ✅ Handle preflight
+app.options(
+  "*",
+  cors({
+    origin: "https://task-flow-civc.vercel.app",
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
@@ -38,6 +45,5 @@ app.use("/api/boards", boardRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/team", teamRoutes);
 
-// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
