@@ -1,7 +1,9 @@
 // src/api/login.js
 
+import { API_URL } from "./config";
+
 export function loginUser(data, callback) {
-  fetch("http://localhost:5000/api/auth/login", {
+  fetch(`${API_URL}api/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

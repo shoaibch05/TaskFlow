@@ -1,7 +1,8 @@
 // src/api/boards.js
+import { API_URL } from "./config";
 export async function getBoards(token) {
   try {
-    const response = await fetch("http://localhost:5000/api/boards", {
+    const response = await fetch(`${API_URL}api/boards`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -19,7 +20,7 @@ export async function getBoards(token) {
   }
 }
 export async function deleteBoard(boardId, token) {
-  const res = await fetch(`http://localhost:5000/api/boards/${boardId}`, {
+  const res = await fetch(`${API_URL}api/boards/${boardId}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${token}`,
@@ -32,7 +33,7 @@ export async function deleteBoard(boardId, token) {
 }
 export async function createBoard(boardData, token) {
   try {
-    const res = await fetch("http://localhost:5000/api/boards/create", {
+    const res = await fetch(`${API_URL}api/boards/create`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -50,17 +51,14 @@ export async function createBoard(boardData, token) {
   }
 }
 export async function addColumn(boardId, columnName, token) {
-  const response = await fetch(
-    `http://localhost:5000/api/boards/${boardId}/columns`,
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ column: columnName }),
-    }
-  );
+  const response = await fetch(`${API_URL}api/boards/${boardId}/columns`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ column: columnName }),
+  });
 
   if (!response.ok) throw new Error("Failed to add column");
   return response.json();

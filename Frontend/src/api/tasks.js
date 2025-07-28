@@ -1,7 +1,9 @@
+import { API_URL } from "./config";
+
 // src/api/tasks.js
 export async function getTasks(boardId, token) {
   try {
-    const response = await fetch(`http://localhost:5000/api/tasks/${boardId}`, {
+    const response = await fetch(`${API_URL}api/tasks/${boardId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -20,7 +22,7 @@ export async function getTasks(boardId, token) {
 }
 // src/api/tasks.js
 export async function createTask(taskData, token) {
-  const res = await fetch("http://localhost:5000/api/tasks", {
+  const res = await fetch(`${API_URL}api/tasks`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -34,7 +36,7 @@ export async function createTask(taskData, token) {
 
 export async function deleteTask(taskId, token) {
   try {
-    const response = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+    const response = await fetch(`${API_URL}api/tasks/${taskId}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,22 +53,19 @@ export async function deleteTask(taskId, token) {
 }
 // src/api/tasks.js
 export async function updateTaskStatus(taskId, status, token) {
-  const response = await fetch(
-    `http://localhost:5000/api/tasks/${taskId}/status`,
-    {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ status }),
-    }
-  );
+  const response = await fetch(`${API_URL}api/tasks/${taskId}/status`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ status }),
+  });
   if (!response.ok) throw new Error("Failed to update task status");
   return await response.json();
 }
 export async function updateTask(taskId, updates, token) {
-  const res = await fetch(`http://localhost:5000/api/tasks/${taskId}`, {
+  const res = await fetch(`${API_URL}api/tasks/${taskId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
